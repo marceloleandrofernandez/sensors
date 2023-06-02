@@ -3,20 +3,23 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { SensorModule } from './modules/sensor/sensor.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { SensorEntity } from './modules/sensor/entities/sensor.entity';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import appConfig from './config/app.config';
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot({
-      type: 'postgres',
-      host: 'localhost',
-      port: 5432,
-      username: 'postgres',
-      password: 'postgres',
-      database: 'postgres',
-      entities: [SensorEntity],
-      autoLoadEntities: true,
-      synchronize: true,
+    ConfigModule.forRoot({
+      isGlobal: true,
+      cache: true,
+      load: [appConfig],
+      //validationSchema:appSchema, to use JOI
+    }),
+    TypeOrmModule.forRootAsync({
+      inject: [ConfigService],
+      useFactory: async (configService: ConfigService) => {
+        console.log(configService.get('config.database'));
+        return configService.get('config.database');
+      },
     }),
     SensorModule,
   ],
