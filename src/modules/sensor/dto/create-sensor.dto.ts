@@ -1,1 +1,4 @@
-export class CreateSensorDto {}
+export class CreateSensorDto {
+  sensorName: string;
+  sensorDescription: string;
+}

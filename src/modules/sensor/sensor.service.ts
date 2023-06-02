@@ -1,26 +1,33 @@
 import { Injectable } from '@nestjs/common';
 import { CreateSensorDto } from './dto/create-sensor.dto';
 import { UpdateSensorDto } from './dto/update-sensor.dto';
+import { SensorEntity } from './entities/sensor.entity';
+import { SensorRepository } from './sensor.repository';
 
 @Injectable()
 export class SensorService {
-  create(createSensorDto: CreateSensorDto) {
-    return 'This action adds a new sensor';
+  constructor(private readonly sensorRepository: SensorRepository) {}
+
+  async getSensorById(id: number): Promise<SensorEntity> {
+    const getedSensor = await this.sensorRepository.getSensorById(id);
+    return getedSensor;
+  }
+  async create(createSensorDto: CreateSensorDto): Promise<SensorEntity> {
+    const createdSensor =
+      this.sensorRepository.createOneSensor(createSensorDto);
+    return createdSensor;
   }
 
-  findAll() {
-    return `This action returns all sensor`;
+  public find() {
+    console.log('entro');
+    return this.sensorRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} sensor`;
+  public update(id: number, updateSensorDto: UpdateSensorDto) {
+    return this.sensorRepository.updateOneSensor(id, updateSensorDto);
   }
 
-  update(id: number, updateSensorDto: UpdateSensorDto) {
-    return `This action updates a #${id} sensor`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} sensor`;
+  public remove(id: number) {
+    return this.sensorRepository.deleteOneSensor(id);
   }
 }

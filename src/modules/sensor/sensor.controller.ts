@@ -1,9 +1,17 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { SensorService } from './sensor.service';
 import { CreateSensorDto } from './dto/create-sensor.dto';
 import { UpdateSensorDto } from './dto/update-sensor.dto';
 
-@Controller('sensor')
+@Controller('sensors')
 export class SensorController {
   constructor(private readonly sensorService: SensorService) {}
 
@@ -12,14 +20,14 @@ export class SensorController {
     return this.sensorService.create(createSensorDto);
   }
 
-  @Get()
-  findAll() {
-    return this.sensorService.findAll();
+  @Get(':id')
+  findOneById(@Param('id') id: number) {
+    return this.sensorService.getSensorById(id);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.sensorService.findOne(+id);
+  @Get()
+  findOne() {
+    return this.sensorService.find();
   }
 
   @Patch(':id')
