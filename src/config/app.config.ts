@@ -8,14 +8,13 @@ export default registerAs('config', async () => {
     username: process.env.POSTGRES_USER,
     password: process.env.POSTGRES_PASSWORD,
     database: 'postgres',
-    entities: [`${process.cwd()} src/**/*.entity.{ts,js}`],
     autoLoadEntities: true,
     synchronize: true,
     logging: true,
+    entities: [`${process.cwd()}/dist/**/*.entity{.ts,.js}`],
   };
   const config = {
     database,
   };
-  console.log('asfasdfasdf', config);
   return config;
 });

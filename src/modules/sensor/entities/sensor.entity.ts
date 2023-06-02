@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { ReadingEntity } from 'src/modules/readings/entities/reading.entity';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 
 @Entity()
 export class SensorEntity {
@@ -10,4 +11,7 @@ export class SensorEntity {
 
   @Column()
   sensorDescription: string;
+
+  @OneToMany(() => ReadingEntity, (readings) => readings.sensor)
+  readings: ReadingEntity[];
 }

@@ -19,7 +19,6 @@ export class SensorService {
   }
 
   public find() {
-    console.log('entro');
     return this.sensorRepository.find();
   }
 
